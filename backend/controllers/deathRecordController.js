@@ -1,3 +1,5 @@
+// backend/controllers/deathRecordController.js
+
 const { DeathRecord } = require('../models');
 
 const getAll = async (req, res) => {
@@ -27,7 +29,26 @@ const getByAadhaar = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const newRecord = await DeathRecord.create(req.body);
+    // 1) Extract only the expected text fields
+    const { name, aadhaarNumber, dateOfDeath, source } = req.body;
+
+    // 2) Ensure multer has given us a file
+    if (!req.file || !req.file.filename) {
+      return res.status(400).json({ error: 'Proof PDF is required' });
+    }
+
+    // 3) Use only the filename in the DB
+    const proofFilePath = req.file.filename;
+
+    // 4) Create the record
+    const newRecord = await DeathRecord.create({
+      name,
+      aadhaarNumber,
+      dateOfDeath,
+      proofFilePath,
+      source,
+    });
+
     res.status(201).json(newRecord);
   } catch (error) {
     console.error(error);
