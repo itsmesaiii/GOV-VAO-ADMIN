@@ -8,6 +8,8 @@ const cors = require('cors');
 
 const beneficiaryRoutes = require('./routes/beneficiaryRoutes');
 const deathRecordRoutes = require('./routes/deathRecordRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +17,8 @@ app.use(express.json());
 // API routes
 app.use('/api/beneficiaries', beneficiaryRoutes);
 app.use('/api/death-records', deathRecordRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/users', userRoutes);
 
 // Serve uploads with forced download and correct PDF headers
 app.use(

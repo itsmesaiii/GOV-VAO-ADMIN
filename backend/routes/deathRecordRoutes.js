@@ -23,6 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get('/', controller.getAll);
+router.get('/matches', controller.getMatchedRecords);
 router.get('/:aadhaarNumber', controller.getByAadhaar);
 
 // now this route will save as "<timestamp>-originalname.pdf"
